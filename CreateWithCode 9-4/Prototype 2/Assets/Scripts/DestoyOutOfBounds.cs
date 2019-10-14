@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class DestoyOutOfBounds : MonoBehaviour
 {
-    public float bounds = 20.0f;
+    public float front_bound = 35.0f;
+    public float back_bound = -15.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +15,9 @@ public class DestoyOutOfBounds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (back_bound > transform.position.z || transform.position.z > front_bound)
+        {
+            Destroy(gameObject);
+        }
     }
 }
