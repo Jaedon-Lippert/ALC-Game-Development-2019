@@ -503,6 +503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dogPrefab: {fileID: 8241448880393145375, guid: 3e5fe95e580114a5f8f8348678e77463,
     type: 3}
+  onCoolDown: 0
 --- !u!4 &355618745
 Transform:
   m_ObjectHideFlags: 0
@@ -1042,6 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e42caba7680f74b15a189c3079ccf273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 355618743}
 --- !u!1 &849260513
 GameObject:
   m_ObjectHideFlags: 0

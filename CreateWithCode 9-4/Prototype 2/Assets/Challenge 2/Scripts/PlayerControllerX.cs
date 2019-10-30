@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerControllerX : MonoBehaviour
 {
     public GameObject dogPrefab;
     private float coolDownTimer = 0.5f;
-    private bool onCoolDown = false;
+    public bool onCoolDown = false;
+
+    public bool GetCoolDown() { return onCoolDown; }
 
     // Update is called once per frame
     void Update()
