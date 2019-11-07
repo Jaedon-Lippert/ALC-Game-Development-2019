@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float jumpPower;
     public float gravityModifier;
     public bool isOnGround = true;
+    public bool isBlocked = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,10 +26,26 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             isOnGround = false;
         }
+
+        if (!isBlocked && transform.position.x < 1)
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * 1);
+            Debug.Log("Moving Forward");
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         isOnGround = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        isBlocked = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        isBlocked = false;
     }
 }
