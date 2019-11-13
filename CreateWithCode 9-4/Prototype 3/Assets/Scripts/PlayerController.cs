@@ -10,28 +10,34 @@ public class PlayerController : MonoBehaviour
     public bool isOnGround = true;
     public bool isBlocked = false;
     public bool gameOver = false;
+    private Animator playerAnim;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
+        playerAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+        if (!gameOver)
         {
-            //playerRb.AddForce(Vector3.up * jumpPower);
-            playerRb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-            isOnGround = false;
-        }
+            if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
+            {
+                //playerRb.AddForce(Vector3.up * jumpPower);
+                playerRb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+                isOnGround = false;
+                playerAnim.SetTrigger("Jump_trig");
+            }
 
-        if (!isBlocked && transform.position.x < 1)
-        {
-            transform.Translate(Vector3.forward * Time.deltaTime * 1);
-            Debug.Log("Moving Forward");
+            if (!isBlocked && transform.position.x < 1)
+            {
+                transform.Translate(Vector3.forward * Time.deltaTime * 1);
+                Debug.Log("Moving Forward");
+            }
         }
     }
 

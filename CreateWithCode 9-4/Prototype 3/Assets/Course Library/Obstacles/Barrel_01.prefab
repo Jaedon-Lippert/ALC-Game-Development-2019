@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -7154681276992504982}
   - component: {fileID: 7629757812513412005}
   - component: {fileID: 2102977279950890700}
+  - component: {fileID: 3596963309371456622}
   m_Layer: 0
   m_Name: Barrel_01
   m_TagString: Obstacle
@@ -122,3 +123,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &3596963309371456622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a73c6b2efa3b47ddadf77c2ffc1b9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpPower: 16
-  gravityModifier: 7
+  gravityModifier: 3
   isOnGround: 1
   isBlocked: 0
   gameOver: 0
