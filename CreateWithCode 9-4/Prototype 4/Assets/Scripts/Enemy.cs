@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed;
+    public float baseSpeed;
+
+    private float TrueSpeed {
+        get {
+            if (baseSpeed / enemyRb.mass > 6.5f) return 6.5f;
+            else return baseSpeed / enemyRb.mass;
+        }
+    }
     private Rigidbody enemyRb;
     private GameObject player;
     public int existIndex;
@@ -22,12 +29,13 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 lookDirection = (player.transform.position - transform.position).normalized;
-        enemyRb.AddForce(lookDirection * speed);
-    }
+        Vector3 lookDirection = new Vector3(player.transform.position.x - transform.position.x, 0.0f, player.transform.position.z - transform.position.z).normalized;
+        enemyRb.AddForce(lookDirection * TrueSpeed);
 
-    public void Destruct()
-    {
-        gameSpawnManager.DestroyEnemy(existIndex);
+        if(transform.position.y < -10.0f)
+        {
+            gameSpawnManager.enemyCount--;
+            Destroy(gameObject);
+        }
     }
 }
