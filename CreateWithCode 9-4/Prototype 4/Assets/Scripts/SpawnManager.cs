@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    private Enemy[] enemyList;
-    private int enemyCount;
-    private int lastEnemy => enemyCount - 1;
-
-    private PowerUp[] powerUpList;
-    private int powerUpCount;
-    private int lastPowerUp => powerUpCount - 1;
+    public int enemyCount = 0;
+    public int powerUpCount = 0;
 
     private float spawnRange = 9;
+    private int waveNumber = 0;
 
     public GameObject enemyPrefab;
     public GameObject powerUpPrefab;
@@ -20,63 +16,54 @@ public class SpawnManager : MonoBehaviour
     //start is called before the first frame update
     void Start()
     {
-        RandomPositionFromCenter rPos = new RandomPositionFromCenter(-spawnRange, spawnRange);
-        CreateEnemy(rPos.xPos, rPos.zPos);
+        SpawnEnemyWave(3);
 
-        rPos = new RandomPositionFromCenter(-spawnRange, spawnRange);
+        RandomPositionFromCenter rPos = new RandomPositionFromCenter(-spawnRange, spawnRange);
         CreatePowerUp(rPos.xPos, rPos.zPos);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-
-    private void CreateEnemy(float spawnPosX, float spawnPosZ)
-    {
-        Enemy[] temp = enemyList;
-
-        enemyCount++;
-        enemyList = new Enemy[enemyCount];
-
-        for (int i = 0; i < enemyCount - 1; i++)
+        if(enemyCount == 0)
         {
-            enemyList[i] = temp[i];
+            RandomPositionFromCenter rPos = new RandomPositionFromCenter(-spawnRange, spawnRange);
+            waveNumber++;
+            SpawnEnemyWave(3 + waveNumber);
+            CreatePowerUp(rPos.xPos, rPos.zPos);
         }
-        enemyList[lastEnemy] = Instantiate(enemyPrefab, new Vector3(spawnPosX,0,spawnPosZ), enemyPrefab.transform.rotation).GetComponent<Enemy>();
-        enemyList[lastEnemy].existIndex = lastEnemy;
     }
-    public void DestroyEnemy(int index)
+
+    //Enemy
+    private void CreateEnemy(float spawnPosX, float spawnPosZ, float size)
     {
-        //Adjust array
+        enemyCount++;
 
-        //Destroy Enemy
-        Destroy(enemyList[index].gameObject);
+        Enemy newEnemy = Instantiate(enemyPrefab, new Vector3(spawnPosX,0,spawnPosZ), enemyPrefab.transform.rotation).GetComponent<Enemy>();
+        newEnemy.transform.localScale = new Vector3(size, size, size);
+        newEnemy.GetComponent<Rigidbody>().mass = size/1.5f;
     }
 
+    //Enemy - Wave
+    private void SpawnEnemyWave(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            RandomPositionFromCenter rPos = new RandomPositionFromCenter(-spawnRange, spawnRange);
+            CreateEnemy(rPos.xPos, rPos.zPos, Random.Range(0.5f, 2.0f));
+        }
+    }
+
+    //Power Ups
     private void CreatePowerUp(float spawnPosX, float spawnPosZ)
     {
-        PowerUp[] temp = powerUpList;
-
         powerUpCount++;
-        powerUpList = new PowerUp[powerUpCount];
 
-        for (int i = 0; i < powerUpCount - 1; i++)
-        {
-            powerUpList[i] = temp[i];
-        }
-        powerUpList[lastPowerUp] = Instantiate(powerUpPrefab, new Vector3(spawnPosX, 0, spawnPosZ), powerUpPrefab.transform.rotation).GetComponent<PowerUp>();
-        powerUpList[lastPowerUp].existIndex = lastPowerUp;
+        GameObject newObject = Instantiate(powerUpPrefab, new Vector3(spawnPosX, 0, spawnPosZ), powerUpPrefab.transform.rotation);
+        PowerUp newPowerUp = newObject.GetComponent<PowerUp>();
     }
-    public void DestroyPowerUp(int index)
-    {
-        //Adjust Array
 
-        //Destroy PowerUp
-        Destroy(powerUpList[index]);
-    }
+
 
     public class RandomPositionFromCenter
     {
