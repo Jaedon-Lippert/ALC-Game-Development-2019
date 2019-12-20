@@ -25,7 +25,7 @@ public class Target : MonoBehaviour
         targetRb.AddTorque(RandomTorque(), RandomTorque(), RandomTorque(), ForceMode.Impulse);
         targetRb.transform.position = RandomSpawnPos();
 
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (gameObject.name.Contains("Good_02")) pointValue = Random.Range(2, pointValue + 1);
     }
 
@@ -37,9 +37,18 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
-        gameManager.updateScore(pointValue);
-        Instantiate(particle, transform.position, particle.transform.rotation);
-        Destroy(gameObject);
+        if (!CompareTag("Bad") && gameManager.isGameActive)
+        {
+            gameManager.UpdateScore(pointValue);
+            Instantiate(particle, transform.position, particle.transform.rotation);
+            Destroy(gameObject);
+        }
+        else if (gameManager.isGameActive)
+        {
+            Instantiate(particle, transform.position, particle.transform.rotation);
+            Destroy(gameObject);
+            gameManager.GameOver();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
